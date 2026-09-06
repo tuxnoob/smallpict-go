@@ -1,0 +1,21 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  index:
+    name: 📦 Ping pkg.go.dev Indexing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request Go Module Proxy Indexing
+        run: |
+          VERSION="${{ github.ref_name }}"
+          if [ -z "${VERSION}" ]; then
+            VERSION="v0.0.1"
+          fi
+          echo "Pinging proxy.golang.org for github.com/tuxnoob/smallpict-go@${VERSION}..."
+          curl -s "https://proxy.golang.org/github.com/tuxnoob/smallpict-go/@v/${VERSION}.info" || true
