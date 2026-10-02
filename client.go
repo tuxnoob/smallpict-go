@@ -106,6 +106,7 @@ func (c *Client) Optimize(ctx context.Context, source io.Reader, opts *OptimizeO
 			"quality":        opts.Quality,
 			"max_width":      opts.MaxWidth,
 			"max_height":     opts.MaxHeight,
+			"max_dimension":  opts.MaxDimension,
 			"fit":            opts.Fit,
 			"lossless":       opts.Lossless,
 			"strip_metadata": opts.StripMetadata,

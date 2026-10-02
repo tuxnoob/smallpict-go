@@ -50,6 +50,18 @@ func TestOptimizeSuccess(t *testing.T) {
 			t.Error("missing Idempotency-Key header")
 		}
 
+		var reqPayload struct {
+			Options struct {
+				MaxDimension int `json:"max_dimension"`
+			} `json:"options"`
+		}
+		bodyBytes, _ := io.ReadAll(r.Body)
+		r.Body = io.NopCloser(bytes.NewReader(bodyBytes))
+		_ = json.Unmarshal(bodyBytes, &reqPayload)
+		if reqPayload.Options.MaxDimension != 1600 {
+			t.Errorf("expected max_dimension 1600, got %d", reqPayload.Options.MaxDimension)
+		}
+
 		respBody, _ := json.Marshal(map[string]interface{}{
 			"job_id":             "job_go_123",
 			"status":             "completed",
@@ -79,8 +91,9 @@ func TestOptimizeSuccess(t *testing.T) {
 
 	buf := bytes.NewBufferString("fake image payload bytes")
 	res, err := client.Optimize(context.Background(), buf, &OptimizeOptions{
-		Format:  FormatAVIF,
-		Quality: 85,
+		Format:       FormatAVIF,
+		Quality:      85,
+		MaxDimension: 1600,
 	})
 	if err != nil {
 		t.Fatalf("unexpected Optimize error: %v", err)

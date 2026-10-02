@@ -37,6 +37,7 @@ type OptimizeOptions struct {
 	Quality        int    `json:"quality,omitempty"`
 	MaxWidth       int    `json:"max_width,omitempty"`
 	MaxHeight      int    `json:"max_height,omitempty"`
+	MaxDimension   int    `json:"max_dimension,omitempty"`
 	Fit            string `json:"fit,omitempty"`
 	Lossless       bool   `json:"lossless,omitempty"`
 	StripMetadata  bool   `json:"strip_metadata"`
